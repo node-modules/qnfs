@@ -16,7 +16,7 @@
     }
   },
   "dependencies": {
-
+    "qn": ">=0.1.0"
   },
   "devDependencies": {
     "should": "*",
@@ -42,6 +42,6 @@
   "engines": {
     "node": ">= 0.8.0"
   },
-  "author": "fengmk2 <fengmk2@gmail.com>  (http://fengmk2.github.com)",
+  "author": "fengmk2 <fengmk2@gmail.com> (http://fengmk2.github.com)",
   "license": "MIT"
 }

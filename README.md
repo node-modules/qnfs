@@ -14,21 +14,65 @@ $ npm install qnfs
 ## Usage
 
 ```js
-var qnfs = require('qnfs');
-qnfs.config({
+var fs = require('qnfs');
+fs.config({
   accessKey: 'your access key',
   secretKey: 'your secret key',
   bucket: 'your bucket name',
   // timeout: 3600000, // default rpc timeout: one hour, optional
 });
 
-qnfs.stat('/qnfs/README.md', function (err, stat) {
+fs.stat('/qnfs/README.md', function (err, stat) {
   console.log(stat);
   // size: 527,
   // atime: Mon, 10 Oct 2011 23:24:11 GMT,
   // mtime: Mon, 10 Oct 2011 23:24:11 GMT,
   // ctime: Mon, 10 Oct 2011 23:24:11 GMT
 });
+```
+
+## Documents
+
+### `fs.stat(path, callback)`
+
+### `fs.writeFile(filename, data, [options], callback)`
+
+### `fs.readFile(filename, [options], callback)`
+
+### `fs.appendFile(filename, [options], callback)`
+
+### `fs.rename(oldPath, newPath, callback)`
+
+### `fs.truncate(path, len, callback)`
+
+### `fs.link(srcpath, dstpath, callback)`
+
+### `fs.readdir(path, callback)`
+
+### `fs.utimes(path, atime, mtime, callback)`
+
+### `fs.exists(path, callback)`
+
+### `fs.createReadStream(path, [options])`
+
+### `fs.createWriteStream(path, [options])`
+
+## TODO
+
+* [ ] All async APIs on [Node.js fs](http://nodejs.org/api/fs.html)
+
+## Authors
+
+```bash
+$ git summary 
+
+ project  : qnfs
+ repo age : 25 hours
+ active   : 2 days
+ commits  : 3
+ files    : 13
+ authors  : 
+     3  fengmk2                 100.0%
 ```
 
 ## License 

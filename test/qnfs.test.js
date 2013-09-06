@@ -23,6 +23,36 @@ describe('qnfs.test.js', function () {
     qnfs.writeFile('/qnfs/test/fixtures/foo.txt', fs.readFileSync(path.join(fixtures, 'foo.txt')), done);
   });
 
+  describe('exists()', function () {
+    it('should return true when file exists', function (done) {
+      qnfs.exists('/qnfs/test/fixtures/foo.txt', function (exists) {
+        exists.should.equal(true);
+        done();
+      });
+    });
+
+    it('should return false when file not exists', function (done) {
+      qnfs.exists('/qnfs/test/fixtures/foo_not_exists.txt', function (exists) {
+        exists.should.equal(false);
+        done();
+      });
+    });
+
+    it('should return true when dir exists', function (done) {
+      qnfs.exists('qnfs/test/fixtures/', function (exists) {
+        exists.should.equal(true);
+        done();
+      });
+    });
+
+    it('should return false when dir not exists', function (done) {
+      qnfs.exists('/qnfs/test/fixtures_not_exists/', function (exists) {
+        exists.should.equal(false);
+        done();
+      });
+    });
+  });
+
   describe('stat()', function () {
     it('should get a file stat', function (done) {
       qnfs.stat('/qnfs/test/fixtures/foo.txt', function (err, stat) {

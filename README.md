@@ -71,12 +71,12 @@ fs.stat('/qnfs/README.md', function (err, stat) {
 $ git summary 
 
  project  : qnfs
- repo age : 25 hours
- active   : 2 days
- commits  : 3
- files    : 13
+ repo age : 4 days
+ active   : 3 days
+ commits  : 13
+ files    : 15
  authors  : 
-     3  fengmk2                 100.0%
+    13  fengmk2                 100.0%
 ```
 
 ## License 

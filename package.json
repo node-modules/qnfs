@@ -1,6 +1,6 @@
 {
   "name": "qnfs",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Network Node.js [fs](http://nodejs.org/api/fs.html) module base on [qiniu](http://docs.qiniu.com/api/)",
   "main": "index.js",
   "scripts": {
@@ -39,7 +39,7 @@
     "email": "fengmk2@gmail.com"
   },
   "keywords": [
-    "qnfs"
+    "qnfs", "qn", "fs", "qiniu", "node-qiniu", "file system"
   ],
   "engines": {
     "node": ">= 0.8.0"

@@ -13,6 +13,7 @@
 var path = require('path');
 var fs = require('fs');
 var should = require('should');
+var pedding = require('pedding');
 var qnfs = require('../');
 
 var fixtures = path.join(__dirname, 'fixtures');
@@ -92,6 +93,54 @@ describe('qnfs.test.js', function () {
           meta.mode.should.equal('0666');
           done();
         });
+      });
+    });
+  });
+
+  describe('readdir()', function () {
+    before(function (done) {
+      done = pedding(7, done);
+      qnfs.writeFile('/qnfs/test/readdir/foo.txt', fooContent, done);
+      qnfs.writeFile('/qnfs/test/readdir/.foobar.txt', fooContent, done);
+      qnfs.writeFile('/qnfs/test/readdir/subdir2/foo2.txt', fooContent, done);
+      qnfs.writeFile('/qnfs/test/readdir/subdir2/foo3.txt', fooContent, done);
+      qnfs.mkdir('/qnfs/test/readdir/subdir1', function () {
+        done();
+      });
+      qnfs.mkdir('/qnfs/test/readdir/subdir1/subsubdir1', function () {
+        done();
+      });
+      qnfs.mkdir('/qnfs/test/readdir/subdir2/subsubdir1/subdir3', function () {
+        done();
+      });
+    });
+
+    it('should return current dir all file and subdir names', function (done) {
+      qnfs.readdir('/qnfs/test/readdir', function (err, names) {
+        should.not.exist(err);
+        should.exist(names);
+        names.should.length(4);
+        names.should.eql(['.foobar.txt', 'foo.txt', 'subdir1', 'subdir2']);
+        done();
+      });
+    });
+
+    it('should return []', function (done) {
+      qnfs.readdir('/qnfs/test/readdir/subdir2/subsubdir1/subdir3', function (err, names) {
+        should.not.exist(err);
+        names.should.eql([]);
+        done();
+      });
+    });
+
+    it('should return error when dir not exists', function (done) {
+      qnfs.readdir('/qnfs/test/readdir/not_exists', function (err) {
+        should.exist(err);
+        err.name.should.equal('Error');
+        err.message.should.equal("ENOENT, readdir '/qnfs/test/readdir/not_exists/'");
+        err.errno.should.equal(34);
+        err.code.should.equal('ENOENT');
+        done();
       });
     });
   });

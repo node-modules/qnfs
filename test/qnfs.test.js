@@ -138,6 +138,48 @@ describe('qnfs.test.js', function () {
     });
   });
 
+  describe('unlink()', function () {
+    before(function (done) {
+      qnfs.writeFile(fooFilePath + '.unlink', fooContent, done);
+    });
+
+    it('should unlink a file', function (done) {
+      qnfs.exists(fooFilePath + '.unlink', function (exists) {
+        should.ok(exists);
+        qnfs.unlink(fooFilePath + '.unlink', function (err) {
+          should.not.exists(err);
+          qnfs.exists(fooFilePath + '.unlink', function (exists) {
+            exists.should.equal(false);
+            done();
+          });
+        });
+      });
+    });
+
+    it('should unlink a not exists return error', function (done) {
+      qnfs.unlink(fooFilePath + '.unlink_not_exists', function (err) {
+        should.exists(err);
+        err.name.should.equal('QiniuFileNotExistsError');
+        err.message.should.equal("ENOENT, unlink '" + fooFilePath + '.unlink_not_exists' + "'");
+        err.errno = 34;
+        err.code = 'ENOENT';
+        done();
+      });
+    });
+
+    it('should unlink a dir return error', function (done) {
+      qnfs.unlink('/tmp/', function (err) {
+        should.exists(err);
+        err.name.should.equal('Error');
+        err.message.should.equal("EACCES, unlink '/tmp/'");
+        err.errno = 3;
+        err.code = 'EACCES';
+        err.path.should.equal('/tmp/');
+        done();
+      });
+    });
+  });
+
   describe('stat()', function () {
     it('should get a file stat', function (done) {
       qnfs.stat(fooFilePath, function (err, stat) {

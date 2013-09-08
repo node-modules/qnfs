@@ -47,7 +47,13 @@ fs.stat('/qnfs/README.md', function (err, stat) {
 
 ### `fs.link(srcpath, dstpath, callback)`
 
+### `fs.unlink(path, callback)`
+
+### `fs.mkdir(path, [mode], callback)`
+
 ### `fs.readdir(path, callback)`
+
+### `fs.rmdir(path, callback)`
 
 ### `fs.utimes(path, atime, mtime, callback)`
 

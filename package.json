@@ -16,7 +16,8 @@
     }
   },
   "dependencies": {
-    "qn": ">=0.1.1"
+    "qn": ">=0.1.1",
+    "debug": ">=0.7.2"
   },
   "devDependencies": {
     "should": "*",

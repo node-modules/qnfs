@@ -45,8 +45,6 @@ fs.stat('/qnfs/README.md', function (err, stat) {
 
 ### `fs.truncate(path, len, callback)`
 
-### `fs.link(srcpath, dstpath, callback)`
-
 ### `fs.unlink(path, callback)`
 
 ### `fs.mkdir(path, [mode], callback)`

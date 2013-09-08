@@ -3,7 +3,7 @@ qnfs [![Build Status](https://secure.travis-ci.org/fengmk2/qnfs.png)](http://tra
 
 ![logo](https://raw.github.com/fengmk2/qnfs/master/logo.png)
 
-Network Node.js [fs](http://nodejs.org/api/fs.html) module base on [qiniu](http://docs.qiniu.com/api/)
+Network Node.js [fs](http://nodejs.org/api/fs.html) module base on [qn](https://github.com/fengmk2/qn)
 
 ## Install
 

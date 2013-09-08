@@ -58,6 +58,44 @@ describe('qnfs.test.js', function () {
     });
   });
 
+  describe('rename()', function () {
+    beforeEach(function (done) {
+      done = pedding(2, done);
+      qnfs.writeFile(fooFilePath + '.rename', fooContent, done);
+      qnfs.unlink(fooFilePath + '.newname', function () {
+        done();
+      });
+    });
+
+    it('should rename a exists file', function (done) {
+      qnfs.rename(fooFilePath + '.rename', fooFilePath + '.newname', function (err) {
+        should.not.exist(err);
+        qnfs.exists(fooFilePath + '.newname', function (exists) {
+          exists.should.equal(true);
+          done();
+        });
+      });
+    });
+
+    it('should rename same file work', function (done) {
+      qnfs.rename(fooFilePath + '.rename', fooFilePath + '.rename', function (err) {
+        should.not.exist(err);
+        done();
+      });
+    });
+
+    it('should rename not exists file return err', function (done) {
+      qnfs.rename(fooFilePath + '.not-exists', fooFilePath + '.newname', function (err) {
+        should.exist(err);
+        err.name.should.equal('QiniuFileNotExistsError');
+        err.message.should.equal('no such file or directory');
+        // err.message.should.equal("ENOENT, rename '" + fooFilePath + '.not-exists' + "'");
+        // console.log(err)
+        done();
+      });
+    });
+  });
+
   describe('mkdir()', function () {
     var dirpath = '/qnfs/test/mkdir' + CI_ENV;
     beforeEach(function (done) {

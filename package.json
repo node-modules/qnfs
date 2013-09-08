@@ -12,11 +12,11 @@
       }
     },
     "travis-cov": {
-      "threshold": 90
+      "threshold": 85
     }
   },
   "dependencies": {
-    "qn": ">=0.1.2",
+    "qn": ">=0.1.3",
     "debug": ">=0.7.2"
   },
   "devDependencies": {

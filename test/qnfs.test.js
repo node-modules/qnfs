@@ -15,14 +15,16 @@ var fs = require('fs');
 var should = require('should');
 var qnfs = require('../');
 
+var fixtures = path.join(__dirname, 'fixtures');
 var CI_ENV = (process.env.TRAVIS ? 'TRAVIS' : process.env.CI_ENV) + '-' + process.version;
 var fooFilePath = '/qnfs/test/fixtures/foo.txt.' + CI_ENV + '.txt';
-var fixtures = path.join(__dirname, 'fixtures');
+var fooContent = fs.readFileSync(path.join(fixtures, 'foo.txt'));
 
 describe('qnfs.test.js', function () {
+  qnfs.config(require('./config.json'));
+
   before(function (done) {
-    qnfs.config(require('./config.json'));
-    qnfs.writeFile(fooFilePath, fs.readFileSync(path.join(fixtures, 'foo.txt')), done);
+    qnfs.writeFile(fooFilePath, fooContent, done);
   });
 
   describe('exists()', function () {
@@ -90,6 +92,48 @@ describe('qnfs.test.js', function () {
           meta.mode.should.equal('0666');
           done();
         });
+      });
+    });
+  });
+
+  describe('readFile()', function () {
+    it('should return file content buffer', function (done) {
+      qnfs.readFile(fooFilePath, function (err, content) {
+        should.not.exist(err);
+        should.ok(Buffer.isBuffer(content));
+        content.toString().should.equal(fooContent.toString());
+        done();
+      });
+    });
+
+    it('should return file content string', function (done) {
+      qnfs.readFile(fooFilePath, 'utf8', function (err, content) {
+        should.not.exist(err);
+        content.should.be.a('string');
+        content.should.equal(fooContent.toString());
+        done();
+      });
+    });
+
+    it('should return error when file not exists', function (done) {
+      qnfs.readFile(fooFilePath + '_not_exists', 'utf8', function (err, content) {
+        should.exist(err);
+        err.name.should.equal('QiniuNotFoundError');
+        err.message.should.equal("ENOENT, open '" + fooFilePath + '_not_exists' + "'");
+        err.errno.should.equal(34);
+        err.code.should.equal('ENOENT');
+        done();
+      });
+    });
+
+    it('should return error when filename is dir', function (done) {
+      qnfs.readFile('/tmp/', 'utf8', function (err, content) {
+        should.exist(err);
+        err.name.should.equal('Error');
+        err.message.should.equal("EISDIR, read");
+        err.errno.should.equal(28);
+        err.code.should.equal('EISDIR');
+        done();
       });
     });
   });

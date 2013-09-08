@@ -183,6 +183,70 @@ describe('qnfs.test.js', function () {
     });
   });
 
+  describe('writeFile()', function () {
+    it('should return err when write a dir', function (done) {
+      qnfs.writeFile('/tmp/', 'ddd', function (err) {
+        should.exist(err);
+        done();
+      });
+    });
+  });
+
+  describe('appendFile()', function () {
+    before(function (done) {
+      done = pedding(3, done);
+      qnfs.unlink(fooFilePath + '.appendFile', function () {
+        qnfs.writeFile(fooFilePath + '.appendFile', fooContent, done);
+      });
+      qnfs.unlink(fooFilePath + '.appendFile.empty', function () {
+        qnfs.writeFile(fooFilePath + '.appendFile.empty', '', done);
+      });      
+      qnfs.unlink(fooFilePath + '.appendFile.not_exists', function () {
+        done();
+      });
+    });
+
+    it('should append content to not exists file', function (done) {
+      qnfs.appendFile(fooFilePath + '.appendFile.not_exists', 'new content', function (err) {
+        should.not.exist(err);
+        qnfs.readFile(fooFilePath + '.appendFile.not_exists', function (err, data) {
+          should.not.exist(err);
+          data.toString().should.equal('new content');
+          done();
+        });
+      });
+    });
+
+    it('should append content to exists file', function (done) {
+      qnfs.appendFile(fooFilePath + '.appendFile', 'new content', function (err) {
+        should.not.exist(err);
+        qnfs.readFile(fooFilePath + '.appendFile', function (err, data) {
+          should.not.exist(err);
+          data.toString().should.equal('This is a foo content.new content');
+          done();
+        });
+      });
+    });
+
+    it('should append content to exists empty file', function (done) {
+      qnfs.appendFile(fooFilePath + '.appendFile.empty', 'new content', function (err) {
+        should.not.exist(err);
+        qnfs.readFile(fooFilePath + '.appendFile.empty', function (err, data) {
+          should.not.exist(err);
+          data.toString().should.equal('new content');
+          done();
+        });
+      });
+    });
+
+    it('should return err when append to dir', function (done) {
+      qnfs.appendFile('/tmp/', 'ddddd', function (err) {
+        should.exist(err);
+        done();
+      });
+    });
+  });
+
   describe('readFile()', function () {
     it('should return file content buffer', function (done) {
       qnfs.readFile(fooFilePath, function (err, content) {

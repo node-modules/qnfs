@@ -39,7 +39,7 @@ fs.stat('/qnfs/README.md', function (err, stat) {
 
 ### `fs.readFile(filename, [options], callback)`
 
-### `fs.appendFile(filename, [options], callback)`
+### `fs.appendFile(filename, data, [options], callback)`
 
 ### `fs.rename(oldPath, newPath, callback)`
 
